@@ -1,48 +1,47 @@
 package de.alosdev.roboguiceandrobotium;
 
-import de.alosdev.roboguiceandrobotium.service.Service;
-import android.app.Activity;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectExtra;
+import roboguice.inject.InjectResource;
+import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
 
-public class RoboGuiceAndRobotiumActivity extends Activity implements OnClickListener {
+import de.alosdev.roboguiceandrobotium.service.IService;
+
+
+public class RoboGuiceAndRobotiumActivity extends RoboActivity  {
   private static final String EXTRA_COUNTER= "extra.counter";
+  @InjectResource(R.string.hello)
   String helloMessage;
+  @InjectView(R.id.hello_message_view)
   TextView helloMessageView;
+  @InjectView(R.id.message)
   TextView messageView;
+  @InjectView(R.id.button)
   Button button;
+  @InjectView(R.id.switchButton)
   Button switchButton;
+  @InjectView(R.id.toastButton)
   Button toastButton;
-  int counter;
-  Service service;
+  @InjectExtra(value=EXTRA_COUNTER, optional=true)
+  int counter = 1;
+  @Inject
+  IService service;
   
   
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    helloMessage = getString(R.string.hello);
-    helloMessageView = (TextView) findViewById(R.id.hello_message_view);
     helloMessageView.setText(helloMessage);
-    button = (Button) findViewById(R.id.button);
-    button.setOnClickListener(this);
-    switchButton = (Button) findViewById(R.id.switchButton);
-    switchButton.setOnClickListener(this);
-    toastButton = (Button) findViewById(R.id.toastButton);
-    toastButton.setOnClickListener(this);
-    messageView = (TextView) findViewById(R.id.message);
-    
-    counter = getIntent().getIntExtra(EXTRA_COUNTER, 1);
-    
-    service = new Service("you pressed the toast button");
   }
 
-  @Override
-  public void onClick(View v) {
+  public void pressHandler(View v) {
     if (v == button) {
       messageView.setText(getString(R.string.button_pressed_text, counter++));
     } else if (v == switchButton) {
@@ -50,7 +49,7 @@ public class RoboGuiceAndRobotiumActivity extends Activity implements OnClickLis
       intent.putExtra(EXTRA_COUNTER, counter + 100);
       startActivity(intent);
     } else if (v == toastButton) {
-      service.showToast(this);
+      service.showToast();
     }
   }
 }
