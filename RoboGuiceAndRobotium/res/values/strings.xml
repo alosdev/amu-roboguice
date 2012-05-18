@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="hello">Hello World, RoboGuiceAndRobotiumActivity!</string>
+  <string name="app_name">RoboGuiceAndRobotium</string>
+  <string name="button_text">Press me</string>
+  <string name="switch_text">Starte Intent</string>
+  <string name="button_pressed_text">You pressed the button %1$s times.</string>
+  <string name="toast_text">Show Toast</string>
+
+</resources>
